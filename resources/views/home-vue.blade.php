@@ -16,4 +16,9 @@
     <div class="col-md-4">
     </div>
   </div>
+  <script>
+    window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+    ]); ?>
+  </script>
 @endsection

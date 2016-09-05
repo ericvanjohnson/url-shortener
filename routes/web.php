@@ -12,9 +12,12 @@
 */
 
 Route::get('/', 'UrlController@index');
+Route::get('/ajax', function(){
+    return view('home-vue');
+});
 
 Route::post('/', 'UrlController@store');
 
-Route::post('api/url', function() {
-  return 'Hello there';
-});
+Route::get('/{code}', 'UrlController@show');
+
+Route::post('api/url', 'UrlController@apiStore');

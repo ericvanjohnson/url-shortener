@@ -1,4 +1,5 @@
 <template>
+    <h2 v-if="newurl.errors">Problem with your entry: {{ newurl.errors }}</h2>
   <p>
     <form class="form-inline" method="post"
     @submit.prevent="onSubmit">
@@ -11,31 +12,38 @@
     </div>
   </form>
 </p>
+    <p>
+        <div v-if=newurl.code>You Code Is: {{ newurl.code }}</div>
+    </p>
 </template>
 
 <script>
     export default {
-      data() {
-        return {
-            props: ['url'],
-            newurl: {
-                url: ''
-            },
-            submitted: false
-        };
-    },
-    methods: {
-        onSubmit: function () {
-            let newurl = this.newurl;
-            this.submitted = true;
-            console.log(newurl.url);
-            this.$http.post('api/url', newurl).success(function (response) {
-              if(response.code == 200) {
-                    var userInfo = response.message;
-                    console.log(userInfo);
-                }
-            });
+        data() {
+            return {
+                props: ['url', 'code', 'errors'],
+                newurl: {
+                    url: '',
+                    code: '',
+                    errors: ''
+                },
+                submitted: false
+            };
+        },
+        methods: {
+            onSubmit: function () {
+                let newurl = this.newurl;
+                this.submitted = true;
+//            console.log(newurl.url);
+                this.$http.post('/api/url', newurl).then((response) => {
+                    if (response.status == 200){
+                        newurl.code = response.body;
+                        console.log(response);
+                    }
+                }, (response) => {
+                    newurl.errors = response.body;
+                });
+            }
         }
-      }
     }
 </script>

@@ -33,6 +33,13 @@
       </form>
     </p>
 
+        @if (isset($code))
+          <p>
+            Your Short URL Is: <a href="/{{$code}}">{{ Request::url() }}/{{ $code }}</a>
+
+          </p>
+        @endif
+
     </div>
     <div class="col-md-4">
     </div>
